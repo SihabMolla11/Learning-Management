@@ -3,7 +3,7 @@ import User from "../models/user.model";
 import { signToken } from "../utils/jwt.util";
 
 export const signUpService = async (userData: any) => {
-  const { first_name, last_name, email, phone, password, address, user_role } = userData;
+  const { first_name, last_name, email, phone, password, address } = userData;
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -18,7 +18,7 @@ export const signUpService = async (userData: any) => {
     phone,
     password: hashedPassword,
     address,
-    user_role: user_role || "USER",
+    user_role: "USER",
   });
 
   await newUser.save();
