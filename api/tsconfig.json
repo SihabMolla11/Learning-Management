@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./src",
+    "paths": {
+      "@controllers/*": ["./controllers/*", "models/*", "utils/*", "services/*"]
+    },
+    // "include": ["src/**/*"],
+    /* Language and Environment */
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Enable Type Checking */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+
+    /* Additional Features */
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "skipLibCheck": true
+  }
+}
