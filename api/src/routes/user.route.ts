@@ -1,24 +1,12 @@
-import express, { Request, RequestHandler, Response } from "express";
+import express from "express";
 import { forgetPassword, signIn, signUp } from "../controllers/auth.controller";
 
 const userRoutes = express.Router();
 
-const signUpHandler: RequestHandler = async (req: Request, res: Response) => {
-  await signUp(req, res);
-};
+userRoutes.post("/auth/signUp", signUp);
 
-const signInHandler: RequestHandler = async (req: Request, res: Response) => {
-  await signIn(req, res);
-};
+userRoutes.post("/auth/signIn", signIn);
 
-const forgetPasswordHandler: RequestHandler = async (req: Request, res: Response) => {
-  await forgetPassword(req, res);
-};
-
-userRoutes.post("/auth/signUp", signUpHandler);
-
-userRoutes.post("/auth/signIn", signInHandler);
-
-userRoutes.post("/auth/forgetPassword", forgetPasswordHandler);
+userRoutes.post("/auth/forgetPassword", forgetPassword);
 
 export default userRoutes;

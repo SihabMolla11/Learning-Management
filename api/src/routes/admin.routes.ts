@@ -1,13 +1,10 @@
+import express from "express";
 import { createCourse } from "../controllers/admin.controller";
-import express, { Request, RequestHandler, Response } from "express";
+import { authenticateUser } from "../utils/auth.middleware";
 
 const adminRoutes = express.Router();
 
 
-const createCourseHandler: RequestHandler = async (req: Request, res: Response) => {
-  await createCourse(req, res);
-};
-
-adminRoutes.post("/createCourse", createCourseHandler);
+adminRoutes.post("/createCourse", authenticateUser, createCourse);
 
 export default adminRoutes;
