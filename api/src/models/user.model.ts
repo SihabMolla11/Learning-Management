@@ -1,11 +1,11 @@
-import mongoose, { Document, Schema } from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
 enum UserRole {
   ADMIN = "ADMIN",
   USER = "USER",
 }
 
-interface userDTO extends Document {
+interface UserDTO extends Document {
   first_name: string;
   last_name?: string;
   email: string;
@@ -17,7 +17,7 @@ interface userDTO extends Document {
   updated_at: Date;
 }
 
-const UserSchema: Schema = new Schema(
+const UserSchema = new Schema<UserDTO>(
   {
     first_name: { type: String, required: true },
     last_name: { type: String, required: false },
@@ -30,4 +30,5 @@ const UserSchema: Schema = new Schema(
   { timestamps: { createdAt: "created_at", updatedAt: "updated_at" } }
 );
 
-export default mongoose.model<userDTO>("User", UserSchema);
+const User = model<UserDTO>("User", UserSchema);
+export default User;
