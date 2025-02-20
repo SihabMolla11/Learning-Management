@@ -21,18 +21,16 @@ export const signUpService = async (userData: any) => {
     user_role: "USER",
   });
 
-  await newUser.save();
+  const user = await newUser.save();
   const token = signToken(newUser.id, newUser.email, newUser.user_role);
 
   return {
-    user: {
-      first_name: newUser.first_name,
-      last_name: newUser.last_name,
-      email: newUser.email,
-      user_role: newUser.user_role,
-    },
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    user_role: user.user_role,
     token,
-    message: "Registration successful",
+    id: user?._id,
   };
 };
 
@@ -50,14 +48,11 @@ export const signInService = async (email: string, password: string) => {
   const token = signToken(user.id, user.email, user.user_role);
 
   return {
-    message: "Login successful",
     token,
-    user: {
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-      user_role: user.user_role,
-    },
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    user_role: user.user_role,
   };
 };
 

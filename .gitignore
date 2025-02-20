@@ -1,3 +1,7 @@
 /api/node_modules
 
 /api/.env
+
+/website/node_modules
+
+/website/.env.local
