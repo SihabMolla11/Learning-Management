@@ -78,3 +78,41 @@ export const deleteLectureService = async (id: string) => {
     title: lecture.title,
   };
 };
+
+export const lectureListByCourseService = async (
+  courseId: string,
+  page: number,
+  perPage: number
+) => {
+  const skip = (page - 1) * perPage;
+  const lectureList = await Lecture.find({ course_id: courseId })
+    .select("_id title slug lecture_number")
+    .skip(skip)
+    .limit(perPage)
+    .exec();
+
+  const totalLectures = await Lecture.countDocuments({ course_id: courseId });
+  return {
+    lectureList,
+    totalLectures,
+    totalPages: Math.ceil(totalLectures / perPage),
+    currentPage: page,
+  };
+};
+
+export const lectureByModuleService = async (moduleId: string, page: number, perPage: number) => {
+  const skip = (page - 1) * perPage;
+  const lectureList = await Lecture.find({ module_id: moduleId })
+    .select("_id title slug lecture_number")
+    .skip(skip)
+    .limit(perPage)
+    .exec();
+
+  const totalLectures = await Lecture.countDocuments({ module_id: moduleId });
+  return {
+    lectureList,
+    totalLectures,
+    totalPages: Math.ceil(totalLectures / perPage),
+    currentPage: page,
+  };
+};

@@ -6,7 +6,15 @@ import {
   getCourseList,
   updateCourse,
 } from "../controllers/admin/admin.course.controller";
-import { createLecture, deleteLecture, getLectureDetail, getLectureList, updateLecture } from "../controllers/admin/admin.lecture.controller";
+import {
+  createLecture,
+  deleteLecture,
+  getLectureDetail,
+  getLectureList,
+  lectureByModule,
+  lectureListByCourse,
+  updateLecture,
+} from "../controllers/admin/admin.lecture.controller";
 import {
   createModule,
   deleteModule,
@@ -35,5 +43,8 @@ adminRoutes.get("/lecture-list", authenticateUser, getLectureList);
 adminRoutes.get("/lecture-detail/:id", authenticateUser, getLectureDetail);
 adminRoutes.patch("/lecture-update/:id", authenticateUser, updateLecture);
 adminRoutes.delete("/lecture-delete/:id", authenticateUser, deleteLecture);
+
+adminRoutes.get("/lectureList-by-course/:id", authenticateUser, lectureListByCourse);
+adminRoutes.get("/lectureList-by-module/:id", authenticateUser, lectureByModule);
 
 export default adminRoutes;

@@ -4,6 +4,8 @@ import {
   deleteLectureService,
   getLectureDetailService,
   getLectureListService,
+  lectureByModuleService,
+  lectureListByCourseService,
   updateLectureService,
 } from "../../services/admin/admin.lecture.service";
 import { checkValidUserService } from "../../services/checkValidUser.service";
@@ -91,6 +93,45 @@ export const deleteLecture = async (req: Request, res: Response): Promise<void> 
     }
 
     const response = await deleteLectureService(id);
+    res.status(200).json(response);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
+};
+
+
+export const lectureListByCourse = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { user }: any = req;
+    const { id } = req.params;
+    const { page, perPage }: any = req.query;
+
+    const fendedUser = checkValidUserService(user?.id);
+    if (!fendedUser || user?.user_role !== "ADMIN") {
+      res.status(401).json({ error: "Unauthorized User" });
+      return;
+    }
+
+    const response = await lectureListByCourseService(id, +page, +perPage);
+    res.status(200).json(response);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
+};
+
+export const lectureByModule = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { user }: any = req;
+    const { id } = req.params;
+    const { page, perPage }: any = req.query;
+
+    const fendedUser = checkValidUserService(user?.id);
+    if (!fendedUser || user?.user_role !== "ADMIN") {
+      res.status(401).json({ error: "Unauthorized User" });
+      return;
+    }
+
+    const response = await lectureByModuleService(id, +page, +perPage);
     res.status(200).json(response);
   } catch (error: any) {
     res.status(500).json({ error: error.message || "Internal Server Error" });
