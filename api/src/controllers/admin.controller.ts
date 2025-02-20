@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import {
   createCourseService,
+  deleteCourseService,
+  getCourseDetailService,
   getCourseListService,
   updateCourseService,
 } from "../services/admin.service";
@@ -51,6 +53,43 @@ export const updateCourse = async (req: Request, res: Response): Promise<void> =
       res.status(401).json({ error: "Usr Not Found" });
     } else {
       const response = await updateCourseService(id, req?.body);
+      res.status(201).json(response);
+    }
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
+};
+
+
+
+export const getCourseDetail = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { user }: any = req;
+    const { id } = req.params;
+
+    const fendedUser = checkValidUserService(user?.id);
+    if (!fendedUser || user?.user_role !== "ADMIN") {
+      res.status(401).json({ error: "Usr Not Found" });
+    } else {
+      const response = await getCourseDetailService(id);
+      res.status(201).json(response);
+    }
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+  }
+};
+
+
+export const deleteCourse = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { user }: any = req;
+    const { id } = req.params;
+
+    const fendedUser = checkValidUserService(user?.id);
+    if (!fendedUser || user?.user_role !== "ADMIN") {
+      res.status(401).json({ error: "Usr Not Found" });
+    } else {
+      const response = await deleteCourseService(id);
       res.status(201).json(response);
     }
   } catch (error: any) {

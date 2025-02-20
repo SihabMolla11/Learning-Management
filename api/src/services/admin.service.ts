@@ -44,6 +44,14 @@ export const getCourseListService = async ({
   };
 };
 
+export const getCourseDetailService = async (id: string) => {
+  const course = await Course.findById(id);
+  if (!course) {
+    throw new Error("Course not found");
+  }
+  return course;
+};
+
 export const updateCourseService = async (id: string, payload: any) => {
   const course = await Course.findById(id);
   if (!course) {
@@ -61,4 +69,22 @@ export const updateCourseService = async (id: string, payload: any) => {
   }
 
   return updatedCourse;
+};
+
+export const deleteCourseService = async (id: string) => {
+  const course = await Course.findById(id);
+  if (!course) {
+    throw new Error("Course not found");
+  }
+
+  const deletedCourse = await Course.findByIdAndDelete(course?._id);
+
+  if (!deletedCourse) {
+    throw new Error("Some thing went wrong please try again");
+  }
+
+  return {
+    message: "Course deleted successfully",
+    title: course?.title,
+  };
 };
