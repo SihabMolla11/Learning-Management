@@ -80,7 +80,7 @@ export const deleteCourseService = async (id: string) => {
   const deletedCourse = await Course.findByIdAndDelete(course?._id);
 
   if (!deletedCourse) {
-    throw new Error("Some thing went wrong please try again");
+    throw new Error("Something went wrong. Please try again.");
   }
 
   return {
