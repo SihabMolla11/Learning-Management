@@ -1,16 +1,10 @@
 "use client";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function SignIn() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [first_name, setFirstName] = useState("");
-  const [last_name, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-
   const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -18,90 +12,90 @@ export default function SignIn() {
 
     try {
       const credentials = {
-        first_name,
-        last_name,
-        email,
-        phone,
-        password,
-        address,
+        email: event?.target.email.value,
+        password: event?.target.password.value,
         Login: true,
       };
 
       const result = await signIn("credentials", {
         ...credentials,
         redirect: false,
-        callbackUrl: "/bangla",
+        callbackUrl: "/",
       });
 
       if (result?.ok) {
-        router.push("/bangla");
+        toast.success("Login Successful");
+        router.push("/");
       }
 
       if (result?.error) {
-        console.log("error 1", result);
-        alert(result.error);
+        toast.error("Invalid Credential");
+        console.log(result);
       }
     } catch (error) {
       console.log("bnagla error", error);
 
-      alert(error.message);
+      toast.error("Login Failed");
     }
   };
 
   return (
-    <div className="bg-white">
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="first_name"
-          placeholder="First Name"
-          value={first_name}
-          onChange={(e) => setFirstName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          name="last_name"
-          placeholder="Last Name"
-          value={last_name}
-          onChange={(e) => setLastName(e.target.value)}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          name="phone"
-          placeholder="Phone"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          name="address"
-          placeholder="Address"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          required
-        />
-        <button type="submit">Register</button>
-      </form>
+    <div>
+      <main id="content" role="main" className="w-full  max-w-md mx-auto p-6">
+        <div className="mt-7 bg-white  rounded-xl shadow-lg   border-2 border-indigo-300">
+          <div className="p-4 sm:p-7">
+            <div className="text-center">
+              <h1 className="block text-2xl font-bold text-gray-800 ">Forgot password?</h1>
+            </div>
+            <div className="mt-5">
+              <form onSubmit={handleSubmit}>
+                <div className="grid gap-y-4">
+                  <div>
+                    <label htmlFor="email" className="block text-sm font-bold ml-1 mb-2 ">
+                      Email address
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="input-field"
+                        aria-describedby="email-error"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="password" className="block text-sm font-bold ml-1 mb-2 ">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        className="input-field"
+                      />
+                    </div>
+                  </div>
+                  <p className=" text-sm text-gray-600 ">
+                    Are you new?
+                    <Link
+                      className="text-blue-600 decoration-2 ms-1 hover:underline font-medium"
+                      href="#"
+                    >
+                      Register
+                    </Link>
+                  </p>
+
+                  <button type="submit" className="btn-primary ">
+                    Sign In
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 }
