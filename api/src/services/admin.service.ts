@@ -43,3 +43,22 @@ export const getCourseListService = async ({
     currentPage: page,
   };
 };
+
+export const updateCourseService = async (id: string, payload: any) => {
+  const course = await Course.findById(id);
+  if (!course) {
+    throw new Error("Course not found");
+  }
+
+  const updatedCourse = await Course.findByIdAndUpdate(
+    course?._id,
+    { $set: payload },
+    { new: true, runValidators: true }
+  );
+
+  if (updatedCourse) {
+    return updatedCourse;
+  }
+
+  return updatedCourse;
+};
