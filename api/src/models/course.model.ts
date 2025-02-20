@@ -2,6 +2,7 @@ import { Document, Schema, model } from "mongoose";
 
 interface CourseDTO extends Document {
   thumbnail: string;
+  slug: string;
   title: string;
   price: number;
   description?: string;
@@ -16,8 +17,9 @@ interface CourseDTO extends Document {
 
 const CourseSchema = new Schema<CourseDTO>(
   {
-    thumbnail: { type: String, required: true },
     title: { type: String, required: true },
+    slug: { type: String, required: true, unique: true },
+    thumbnail: { type: String, required: true },
     price: { type: Number, required: true },
     description: { type: String },
     course_duration: { type: String, required: true },

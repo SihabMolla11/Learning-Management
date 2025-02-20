@@ -3,7 +3,7 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "baseUrl": "./src",
-    "typeRoots": ["node_modules/@types", "src/types"], // Correct placement
+    "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
       "@controllers/*": ["controllers/*"],
       "@models/*": ["models/*"],
@@ -16,16 +16,14 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
 
-    /* Enable Type Checking */
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
     "noUnusedLocals": true,
 
-    /* Additional Features */
     "resolveJsonModule": true,
     "allowJs": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"] // No need to explicitly include express.d.ts
+  "include": ["src/**/*"]
 }
