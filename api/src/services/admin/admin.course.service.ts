@@ -1,5 +1,5 @@
-import Course from "../models/course.model";
-import { validateRequiredFields } from "../utils/validation.util";
+import Course from "../../models/course.model";
+import { validateRequiredFields } from "../../utils/validation.util";
 
 export const createCourseService = async (courseData: any) => {
   const requiredFields = [

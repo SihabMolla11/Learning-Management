@@ -5,6 +5,6 @@ export const checkValidUserService = async (id: string) => {
     const user = await User.findOne({ id });
     return user;
   } catch (error) {
-    console.log("bnala error")
+    console.log("Internal Server Error")
   }
 };

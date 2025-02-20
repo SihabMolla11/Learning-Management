@@ -1,12 +1,13 @@
 import { Request, Response } from "express";
+
 import {
   createCourseService,
   deleteCourseService,
   getCourseDetailService,
   getCourseListService,
   updateCourseService,
-} from "../services/admin/admin.course.service";
-import { checkValidUserService } from "../services/checkValidUser.service";
+} from "../../services/admin/admin.course.service";
+import { checkValidUserService } from "../../services/checkValidUser.service";
 
 export const createCourse = async (req: Request, res: Response): Promise<void> => {
   try {

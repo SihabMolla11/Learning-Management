@@ -5,7 +5,7 @@ import {
   getCourseDetail,
   getCourseList,
   updateCourse,
-} from "../controllers/admin.controller";
+} from "../controllers/admin/admin.course.controller";
 import { authenticateUser } from "../utils/auth.middleware";
 
 const adminRoutes = express.Router();
