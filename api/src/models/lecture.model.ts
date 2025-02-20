@@ -4,6 +4,7 @@ interface LectureDTO extends Document {
   course_id: Types.ObjectId;
   module_id: Types.ObjectId;
   title: string;
+  slug: string;
   video: string;
   pdf: string;
   lecture_number: number;
@@ -16,6 +17,7 @@ const LectureSchema = new Schema<LectureDTO>(
     course_id: { type: Schema.Types.ObjectId, ref: "Course", required: true },
     module_id: { type: Schema.Types.ObjectId, ref: "Module", required: true },
     title: { type: String, required: true },
+    slug: { type: String, required: true, unique: true },
     video: { type: String, required: true },
     lecture_number: { type: Number, required: true },
     pdf: { type: String, required: true },
