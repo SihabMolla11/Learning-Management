@@ -1,15 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { CourseDataType } from "./course.types";
 
 type PropsTypes = {
   data: CourseDataType;
+  handelOpenEdit: (data: CourseDataType) => void;
+  setDeleteItemId: (data: string) => void;
+  setIsOpenDeleteModal: (data: boolean) => void;
 };
 
-const CourseTableCard: React.FC<PropsTypes> = ({ data }) => {
+const CourseTableCard: React.FC<PropsTypes> = ({
+  data,
+  handelOpenEdit,
+  setDeleteItemId,
+  setIsOpenDeleteModal,
+}) => {
+  const [showAll, setShowAll] = useState(false);
+
+  const descriptionText =
+    data?.description?.length > 200 ? (
+      <p className="text-sm text-gray-500">
+        {`${!showAll ? data?.description?.slice(0, 200) : data?.description}`}
+        <button onClick={() => setShowAll(!showAll)} className="text-primary hover:underline ms-2">
+          {showAll ? "see less" : "see more..."}
+        </button>
+      </p>
+    ) : (
+      <p className="text-sm text-gray-500">{data?.description}</p>
+    );
+
+  const handelDeleteClick = () => {
+    setDeleteItemId(data?._id);
+    setIsOpenDeleteModal(true);
+  };
+
   return (
     <>
       <tr>
-        <td className="px-6 py-4 whitespace-nowrap">
+        <td className="px-6 whitespace-nowrap py-2 align-top">
           <div className="flex items-start">
             <div className="flex-shrink-0 h-10 w-10">
               <img
@@ -32,7 +59,7 @@ const CourseTableCard: React.FC<PropsTypes> = ({ data }) => {
             </div>
           </div>
         </td>
-        <td className="px-6 py-4 whitespace-nowrap">
+        <td className="px-6 whitespace-nowrap py-2 align-top">
           <div className="border-b border-gray-color pb-2">
             <p className="text-sm text-gray-900">
               Start Date:
@@ -48,7 +75,7 @@ const CourseTableCard: React.FC<PropsTypes> = ({ data }) => {
             </p>
           </div>
 
-          <div className="pt-2">
+          <div className="pt-2 ">
             <p className="text-sm text-gray-900">
               Enrollment Start Date:
               <span className="font-semibold text-black ms-2">
@@ -63,17 +90,18 @@ const CourseTableCard: React.FC<PropsTypes> = ({ data }) => {
             </p>
           </div>
         </td>
-        <td className="px-6 py-4 whitespace-nowrap">
-          <p className="text-sm text-gray-500">{`${data?.description}`}</p>
-        </td>
+        <td className="px-6  py-2 align-top">{descriptionText}</td>
 
-        <td className="px-6 py-4 whitespace-nowrap  text-sm font-medium">
-          <a href="#" className="text-indigo-600 hover:text-indigo-900">
+        <td className="px-6 whitespace-nowrap py-2  text-sm font-medium align-top">
+          <button
+            onClick={() => handelOpenEdit(data)}
+            className="text-primary hover:text-primary-hover"
+          >
             Edit
-          </a>
-          <a href="#" className="ml-2 text-red-600 hover:text-red-900">
+          </button>
+          <button onClick={handelDeleteClick} className="ml-2 text-red-600 hover:text-red-900">
             Delete
-          </a>
+          </button>
         </td>
       </tr>
     </>

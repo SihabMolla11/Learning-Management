@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import DeleteModal from "@/components/DeleteModal";
 import { get } from "@/service/api";
 import { API_COURSE } from "@/service/endpoint";
 import { useQuery } from "@tanstack/react-query";
@@ -13,11 +14,15 @@ import { CourseDataType } from "./course.types";
 
 const ManageCoursePageComponent = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenDeleteModal, setIsOpenDeleteModal] = useState(false);
+  const [editItem, setEditItem] = useState<CourseDataType | null>(null);
+  const [deleteItemId, setDeleteItemId] = useState(null);
 
   const {
     data: fetchedData,
     isLoading,
     isError,
+    refetch,
   } = useQuery({
     queryKey: ["get-all-course-for-admin"],
     queryFn: () => get(API_COURSE.getList),
@@ -34,11 +39,16 @@ const ManageCoursePageComponent = () => {
     </>
   );
 
+  const handelOpenEdit = (item: CourseDataType) => {
+    setEditItem(item);
+    setIsOpenModal(true);
+  };
+
   return (
     <>
       <div>
         <AdminHeader pageTitle="Course Management" rightButton={openModalButton} />
-        <table className="min-w-full divide-y divide-gray-200 overflow-x-auto">
+        <table className="w-full  divide-gray-200 overflow-x-auto">
           <thead className="bg-gray-50">
             <tr>
               <th
@@ -70,13 +80,31 @@ const ManageCoursePageComponent = () => {
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {fetchedData?.courseList?.map((item: CourseDataType) => (
-              <CourseTableCard key={item?._id} data={item} />
+              <CourseTableCard
+                setDeleteItemId={setDeleteItemId}
+                setIsOpenDeleteModal={setIsOpenDeleteModal}
+                handelOpenEdit={handelOpenEdit}
+                key={item?._id}
+                data={item}
+              />
             ))}
           </tbody>
         </table>
       </div>
 
-      <AddCourseModal isOpen={isOpenModal} setIsOpen={setIsOpenModal} />
+      <AddCourseModal
+        refetch={refetch}
+        editItem={editItem}
+        isOpen={isOpenModal}
+        setIsOpen={setIsOpenModal}
+      />
+
+      <DeleteModal
+        isOpen={isOpenDeleteModal}
+        setIsOpen={setIsOpenDeleteModal}
+        refetch={refetch}
+        url={`${API_COURSE.delete}/${deleteItemId}`}
+      />
     </>
   );
 };

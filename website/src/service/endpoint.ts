@@ -8,4 +8,6 @@ export const API_LOGIN_USER = "user/auth/signIn";
 export const API_COURSE = {
   create: "admin-dashboard/create-course",
   getList: "admin-dashboard/course-list",
+  update: "admin-dashboard/update-course",
+  delete: "admin-dashboard/delete-course",
 };

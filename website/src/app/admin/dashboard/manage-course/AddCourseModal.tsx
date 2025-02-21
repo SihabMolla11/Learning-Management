@@ -1,5 +1,5 @@
 import UploadImage from "@/components/common-components/UploadImage";
-import { post } from "@/service/api";
+import { patch, post } from "@/service/api";
 import { API_COURSE } from "@/service/endpoint";
 import { createSlug } from "@/utils/util";
 import { Dialog, DialogPanel } from "@headlessui/react";
@@ -16,6 +16,8 @@ import { CourseDataType } from "./course.types";
 type PropsTypes = {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  refetch: () => void;
+  editItem?: CourseDataType;
 };
 
 const schema = yup.object().shape({
@@ -29,7 +31,7 @@ const schema = yup.object().shape({
   thumbnail: yup.string().required("thumbnail is required"),
 });
 
-const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen }) => {
+const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen, editItem, refetch }) => {
   const [imageUploadLoading, setImageUploadLoading] = useState(false);
 
   const {
@@ -40,6 +42,16 @@ const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen }) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
+    values: {
+      title: editItem?.title ?? null,
+      description: editItem?.description ?? null,
+      price: editItem?.price ?? null,
+      course_duration: editItem?.course_duration ?? null,
+      start_time: new Date(editItem?.start_time) ?? null,
+      end_time: new Date(editItem?.end_time) ?? null,
+      enrolment_start_date: new Date(editItem?.enrolment_start_date) ?? null,
+      enrolment_end_date: new Date(editItem?.enrolment_end_date) ?? null,
+    },
   });
 
   const onCloseModal = () => {
@@ -50,9 +62,21 @@ const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen }) => {
   const createData = useMutation({
     mutationFn: async (data) => await post(API_COURSE.create, data),
     onSuccess: (response) => {
-      console.log("bnagla response", response);
       toast.success("Saved Successfully");
       onCloseModal();
+      refetch();
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    },
+  });
+
+  const updateData = useMutation({
+    mutationFn: async (data: any) => await patch(`${API_COURSE.update}/${editItem?._id}`, data),
+    onSuccess: (response) => {
+      toast.success("Saved Successfully");
+      onCloseModal();
+      refetch();
     },
     onError: () => {
       toast.error("Something went wrong");
@@ -61,6 +85,12 @@ const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen }) => {
 
   const onSubmit = (data: CourseDataType) => {
     data.slug = createSlug(data?.title);
+
+    if (editItem?._id) {
+      updateData.mutate(data);
+      return;
+    }
+
     createData.mutate(data);
   };
 
@@ -191,7 +221,10 @@ const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen }) => {
 
             <div>
               <label className="font-semibold text-gray-700 text-sm">Description</label>
-              <textarea className="input-field border !border-primary !rounded-sm w-full" />
+              <textarea
+                {...register("description")}
+                className="input-field border !border-primary !rounded-sm w-full"
+              />
               <p className="text-red-500 text-xs">{errors.description?.message}</p>
             </div>
 
