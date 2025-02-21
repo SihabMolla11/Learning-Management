@@ -1,7 +1,11 @@
 import Footer from "@/components/common-components/Footer";
 import Header from "@/components/common-components/Header";
 
-const WebsiteLayout = ({ children }) => {
+const WebsiteLayout = ({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) => {
   return (
     <main>
       <Header />
