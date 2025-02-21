@@ -1,11 +1,17 @@
 import UploadImage from "@/components/common-components/UploadImage";
+import { post } from "@/service/api";
+import { API_COURSE } from "@/service/endpoint";
+import { createSlug } from "@/utils/util";
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import * as yup from "yup";
+import { CourseDataType } from "./course.types";
 
 type PropsTypes = {
   isOpen: boolean;
@@ -41,9 +47,21 @@ const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen }) => {
     setIsOpen(false);
   };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
-    // setIsOpen(false);
+  const createData = useMutation({
+    mutationFn: async (data) => await post(API_COURSE.create, data),
+    onSuccess: (response) => {
+      console.log("bnagla response", response);
+      toast.success("Saved Successfully");
+      onCloseModal();
+    },
+    onError: () => {
+      toast.error("Something went wrong");
+    },
+  });
+
+  const onSubmit = (data: CourseDataType) => {
+    data.slug = createSlug(data?.title);
+    createData.mutate(data);
   };
 
   return (
@@ -51,8 +69,6 @@ const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen }) => {
       <div className="fixed inset-0 z-10 w-screen overflow-y-auto bg-[rgba(0,0,0,.3)] flex items-center justify-center p-4">
         <DialogPanel className="w-full max-w-lg rounded-xl bg-white p-6 border border-gray-300 max-h-[500px] overflow-y-auto">
           <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
-           
-
             <div>
               <Controller
                 name="thumbnail"
@@ -181,14 +197,15 @@ const AddCourseModal: React.FC<PropsTypes> = ({ isOpen, setIsOpen }) => {
 
             <div className="flex items-center justify-end gap-3">
               <button
+                disabled={createData.isPending}
                 className="bg-gray-300 px-4 text-primary text-sm font-medium py-1 hover:bg-gray-400 rounded-md"
                 type="button"
                 onClick={() => setIsOpen(false)}
               >
                 Cancel
               </button>
-              <button className="btn-primary" type="submit">
-                Save
+              <button disabled={createData.isPending} className="btn-primary" type="submit">
+                {createData.isPending ? "Loading" : "Save"}
               </button>
             </div>
           </form>

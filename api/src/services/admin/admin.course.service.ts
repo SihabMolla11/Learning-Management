@@ -30,7 +30,7 @@ export const getCourseListService = async ({
 }) => {
   const skip = (page - 1) * perPage;
   const courseList = await Course.find()
-    .select("_id slug thumbnail title price course_duration start_time end_time")
+    .select("-created_at, -updated_at")
     .skip(skip)
     .limit(perPage)
     .exec();

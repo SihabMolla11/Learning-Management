@@ -9,7 +9,7 @@ export const sidebarItems = [
   },
   {
     label: "Manage Course",
-    key: "manage-course",
+    key: "/admin/dashboard/manage-course",
     icon: <BsCcSquare />,
   },
 ];
