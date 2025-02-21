@@ -106,7 +106,7 @@ const SideBar = ({ children }) => {
             </div>
           </div>
         </div>
-        <div className="bg-indigo-700 py-4 text-gray-100 mt-auto">
+        <div className="bg-primary py-4 text-gray-100 mt-auto">
           <p className="px-4 text-center sm:w-auto w-full">
             © 2025 - Sihab Uddin Molla. All rights reserved.
           </p>

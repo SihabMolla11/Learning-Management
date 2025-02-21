@@ -42,10 +42,10 @@ export default function SignIn() {
   return (
     <div>
       <main id="content" role="main" className="w-full  max-w-md mx-auto p-6">
-        <div className="mt-7 bg-white  rounded-xl shadow-lg   border-2 border-indigo-300">
+        <div className="mt-7 bg-white  rounded-xl shadow-lg   border-2 border-gray-color">
           <div className="p-4 sm:p-7">
             <div className="text-center">
-              <h1 className="block text-2xl font-bold text-gray-800 ">Forgot password?</h1>
+              <h1 className="block text-2xl font-bold text-gray-800 ">Sign In</h1>
             </div>
             <div className="mt-5">
               <form onSubmit={handleSubmit}>
@@ -80,7 +80,7 @@ export default function SignIn() {
                   <p className=" text-sm text-gray-600 ">
                     Are you new?
                     <Link
-                      className="text-blue-600 decoration-2 ms-1 hover:underline font-medium"
+                      className="text-primary decoration-2 ms-1 hover:underline font-medium"
                       href="#"
                     >
                       Register
