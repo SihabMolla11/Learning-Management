@@ -9,3 +9,7 @@
 .btn-primary {
   @apply py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all text-sm;
 }
+
+.main-container{
+  @apply px-4 mx-auto sm:max-w-xl  md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8
+}

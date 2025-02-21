@@ -17,10 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          {/* <Header /> */}
 
           <main className="main ">{children}</main>
-          {/* <Footer /> */}
           <Toaster />
         </Providers>
       </body>
