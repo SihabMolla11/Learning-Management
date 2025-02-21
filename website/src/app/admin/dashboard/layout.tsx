@@ -1,5 +1,6 @@
 import React from "react";
-import SideBar from "./SideBar";
+import SideBar from "./components/SideBar";
+import { IoMdMenu } from "react-icons/io";
 
 const DashboardLayout = ({
   children,
@@ -8,7 +9,13 @@ const DashboardLayout = ({
 }>) => {
   return (
     <>
-      <SideBar>{children}</SideBar>
+      <SideBar>
+        <div className="flex-1  flex flex-col overflow-hidden">
+
+
+          <div className="">{children}</div>
+        </div>
+      </SideBar>
     </>
   );
 };

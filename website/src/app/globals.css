@@ -3,13 +3,17 @@
 @tailwind utilities;
 
 .input-field {
-  @apply py-3 px-4 block w-full border-2 border-gray-200 rounded-md text-sm focus:outline-primary focus:outline-2 shadow-sm;
+  @apply py-1 px-4 block w-full border border-primary-hover rounded-sm text-sm focus:outline-primary focus:outline-2 shadow-sm;
 }
 
 .btn-primary {
-  @apply py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all text-sm;
+  @apply py-1 px-4 inline-flex justify-center items-center gap-2 rounded-md border border-transparent font-semibold bg-primary text-white hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all text-sm;
 }
 
-.main-container{
-  @apply px-4 mx-auto sm:max-w-xl  md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8
+.main-container {
+  @apply px-4 mx-auto sm:max-w-xl  md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
 }
