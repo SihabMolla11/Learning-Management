@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import Providers from "./Providers";
-import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,9 +19,7 @@ export default function RootLayout({
         <Providers>
           {/* <Header /> */}
 
-          <main style={{ padding: 10 }} className="main ">
-            {children}
-          </main>
+          <main className="main ">{children}</main>
           {/* <Footer /> */}
           <Toaster />
         </Providers>
